@@ -15,7 +15,7 @@ export const Write = ({ submitComments }) => {
 
     return (
         <form onSubmit={handleSubmit}>
-            <p>댓글</p>
+            <h3>댓글</h3>
             <textarea
                 value={comment}
                 onChange={handleChange}
