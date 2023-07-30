@@ -1,14 +1,17 @@
 import { UserInfo } from "./components/UserInfo";
 import { UserContent } from "./components/UserContent";
+import { useState } from "react";
 
 export const My = () => {
-    const userData = {
+    const initUserData = {
         nickname: "commeci",
         joinDate: "2023-07-28",
         id1365: "commeci1365",
         idVMS: "commeciVMS",
         introduction: "내 이름은 commeci! 많은 정보를 알려주기 위해 노력할게!",
     };
+
+    const [userData, setUserData] = useState({ ...initUserData });
 
     const bookmarkData = [
         {
@@ -39,7 +42,7 @@ export const My = () => {
     ];
 
     const saveUser = (editUser) => {
-        console.log(editUser);
+        setUserData({ ...editUser });
     };
 
     return (
