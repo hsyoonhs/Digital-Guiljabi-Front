@@ -31,7 +31,7 @@ export const Sidebar = () => {
 
     return (
         <section className="admin-sidebar">
-            <div className="admin-sidebar__logo">
+            <div className="admin-sidebar__logo" onClick={()=>navigate("/admin")}>
                 <img src="/images/logo.png" alt="logo" />
             </div>
             <div className="admin-sidebar__menu">
