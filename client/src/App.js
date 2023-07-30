@@ -15,7 +15,7 @@ function App() {
                 <Route path="/detailInfo" element={<Detail />} />
                 <Route path="/my" element={<My />} />
                 <Route path="/search" element={<SearchInfo />} />
-                <Route path="/admin" element={<Admin />} />
+                <Route path="/admin/*" element={<Admin />} />
             </Routes>
         </Router>
     );

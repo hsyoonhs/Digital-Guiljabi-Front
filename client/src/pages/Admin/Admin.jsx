@@ -1,12 +1,14 @@
 import { Routes, Route } from "react-router-dom"
 import { Home } from "./pages"
 
+import { Sidebar } from "./Components/Sidebar"
+
 export const Admin = () => {
     return (
         <div>
+            <Sidebar />
             <Routes>
-                <Route path="/" element={<div>Admin</div>} />
-                <Route path="/home" element={<Home />} />
+                <Route path="/" element={<Home />} />
             </Routes>
         </div>
     )
