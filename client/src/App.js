@@ -4,6 +4,9 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Detail, Home } from "./pages";
+import { Home } from "./pages";
+import { My } from "./pages";
+import { SearchInfo } from "./pages";
 import { Navbar } from "./components/Navbar";
 
 function App() {
@@ -13,6 +16,8 @@ function App() {
             <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/detailInfo" element={<Detail />} />
+                <Route path="/my" element={<My />} />
+                <Route path="/search" element={<SearchInfo />} />
             </Routes>
         </Router>
     );
