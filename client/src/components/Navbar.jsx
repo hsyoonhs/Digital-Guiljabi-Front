@@ -17,6 +17,7 @@ export const Navbar = () => {
                 <button onClick={() => navigate("/detailInfo")}>Detail</button>
                 <button onClick={() => navigate("/my")}>My</button>
                 <button onClick={() => navigate("/search")}>Search</button>
+                <button onClick={() => navigate("/admin")}>Admin</button>
             </div>
         </div>
     );
