@@ -1,7 +1,13 @@
+import { Routes, Route } from "react-router-dom"
+import { Home } from "./pages"
+
 export const Admin = () => {
     return (
         <div>
-            <h1>관리자 페이지</h1>
+            <Routes>
+                <Route path="/" element={<div>Admin</div>} />
+                <Route path="/home" element={<Home />} />
+            </Routes>
         </div>
     )
 }
