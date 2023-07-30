@@ -67,7 +67,7 @@ export const SearchInfo = () => {
 
     useEffect(() => {
         sortPosts(filteredPosts, sortBy);
-    }, [sortBy]);
+    }, [sortBy, filteredPosts]);
 
     return (
         <div>
