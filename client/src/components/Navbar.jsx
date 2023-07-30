@@ -1,9 +1,8 @@
-import "../styles/Navbar.css"
+import "../styles/Navbar.css";
 
-import { useNavigate } from "react-router-dom"
+import { useNavigate } from "react-router-dom";
 
 export const Navbar = () => {
-
     const navigate = useNavigate();
 
     return (
@@ -15,8 +14,8 @@ export const Navbar = () => {
                 <button onClick={() => navigate("/")}>Home</button>
                 <button onClick={() => navigate("/about")}>About</button>
                 <button onClick={() => navigate("/contact")}>Contact</button>
+                <button onClick={() => navigate("/my")}>My</button>
             </div>
         </div>
-    )
-}
-
+    );
+};
