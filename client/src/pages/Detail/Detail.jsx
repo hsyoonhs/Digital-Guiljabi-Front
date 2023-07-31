@@ -11,6 +11,7 @@ export const Detail = () => {
     const [post, setPost] = useState({
         id: 1,
         title: "후잉이가 쓰는 글",
+        profile: "",
         nickname: "나는 후잉",
         date: "2023-07-29",
         formData: [
