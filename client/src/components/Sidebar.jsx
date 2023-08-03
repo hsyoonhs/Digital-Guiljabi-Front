@@ -13,19 +13,19 @@ export const Sidebar = () => {
         {
             name: "회원",
             pages: [
-                { name: "회원관리", path: "/admin/user/users" },
-                { name: "관리자관리", path: "/admin/user/admin" },
-                { name: "정지된 회원 관리", path: "/admin/user/ban" },
+                // { name: "회원관리", path: "/admin/user/users" },
+                // { name: "관리자관리", path: "/admin/user/admin" },
+                // { name: "정지된 회원 관리", path: "/admin/user/ban" },
             ]
         },
         {
             name: "서비스",
             pages: [
-                { name: "게시글/댓글 관리", path: "/admin/service/post" },
+                // { name: "게시글/댓글 관리", path: "/admin/service/post" },
                 { name: "승인대기 게시물 목록", path: "/admin/service/wait" },
                 { name: "수정요청 목록", path: "/admin/service/edit" },
                 { name: "신고 목록", path: "/admin/service/report" },
-                { name: "문의 목록", path: "/admin/service/question" },
+                // { name: "문의 목록", path: "/admin/service/question" },
             ]
         }
     ]
