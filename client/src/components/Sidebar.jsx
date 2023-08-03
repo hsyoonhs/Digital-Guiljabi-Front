@@ -1,4 +1,5 @@
 import { useNavigate } from "react-router-dom";
+import "../styles/admin.css"
 
 export const Sidebar = () => {
     const navigate = useNavigate();
@@ -31,11 +32,11 @@ export const Sidebar = () => {
 
     return (
         <section className="admin-sidebar">
-            <div className="admin-sidebar__logo" onClick={()=>navigate("/admin")}>
+            {/* <div className="admin-sidebar__logo" onClick={()=>navigate("/admin")}>
                 <img src="/images/logo.png" alt="logo" />
-            </div>
+            </div> */}
             <div className="admin-sidebar__menu">
-                {pageInfo.map((page, index) => (
+                {pageInfo.map((page, index) => (page.name != "메인") && (
                     <div key={index} className="admin-sidebar__menu__item">
                         <div className="admin-sidebar__menu__item__title">{page.name}</div>
                         <ul className="admin-sidebar__menu__item__list">
