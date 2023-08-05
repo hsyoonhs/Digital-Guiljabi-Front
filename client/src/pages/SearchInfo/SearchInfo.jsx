@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { PostList } from "./components/PostList";
 import { Category } from "./components/Category";
 import { SeeMore } from "./components/SeeMore";
@@ -22,7 +22,7 @@ export const SearchInfo = () => {
         setSelectCategory(category);
     };
 
-    const testData = [
+    const testData = useMemo(() => [
         {
             id: 1,
             title: "Post 1",
@@ -50,7 +50,7 @@ export const SearchInfo = () => {
             comment: "이 이야기는 블라블라",
             category: "전자기기",
         },
-    ];
+    ], []);
 
     const handleSearch = () => {
         const filtered = testData.filter((post) =>
@@ -89,7 +89,7 @@ export const SearchInfo = () => {
             sorted.sort((a, b) => b.likes - a.likes);
         }
         setFilteredPosts(sorted);
-    }, [sortBy, selectCategory]);
+    }, [sortBy, selectCategory, testData]);
 
     return (
         <div>
