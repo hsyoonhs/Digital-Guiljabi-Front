@@ -1,5 +1,5 @@
 import { Routes, Route } from "react-router-dom"
-import { Home, WaitingPost, ReportPost, EditPost } from "./pages"
+import { Home, WaitingPost, ReportPost, EditPost, WaitDetail } from "./pages"
 
 export const Admin = () => {
     return (
@@ -9,6 +9,7 @@ export const Admin = () => {
                 <Route path="wait" element={<WaitingPost />} />
                 <Route path="report" element={<ReportPost />} />
                 <Route path="edit" element={<EditPost />} />
+                <Route path="wait/:id" element={<WaitDetail />} />
             </Route>
         </Routes>
     )

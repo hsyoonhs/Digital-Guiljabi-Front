@@ -27,7 +27,7 @@ export const WaitingPost = () => {
                 <option>최신순</option>
             </select>
 
-            <PostTable type={"요청"} data={tempData} />
+            <PostTable type={"wait"} data={tempData} />
         </section>
     )
 }

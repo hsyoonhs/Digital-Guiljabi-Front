@@ -27,7 +27,7 @@ export const ReportPost = () => {
             <input type="checkbox" id="all" />
             <label htmlFor="all">누적 5회만 보기</label>
 
-            <PostTable type={"신고"} data={tempData} />
+            <PostTable type={"report"} data={tempData} />
         </section>  
     )
 }

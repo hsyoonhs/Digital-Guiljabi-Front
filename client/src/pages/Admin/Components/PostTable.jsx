@@ -1,9 +1,20 @@
+import { useNavigate } from "react-router-dom"
+
 export const PostTable = ({ type, data }) => {
+    const navigate = useNavigate()
+    const onClick = () => {
+        navigate(`/admin/service/${type}/1`)
+    }
+    const typeToWord = {
+        wait: "요청",
+        report: "신고",
+        edit: "요청"
+    }
     return (
         <table className="post-table">
             <thead>
                 <tr>
-                    <th>{type} 일시</th>
+                    <th>{typeToWord[type]} 일시</th>
                     <th>글쓴이</th>
                     <th>제목</th>
                     <th>비고</th>
@@ -13,7 +24,7 @@ export const PostTable = ({ type, data }) => {
             <tbody>
                 {data.map((post, index) => {
                     return (
-                        <tr key={index}>
+                        <tr key={index} onClick={onClick}>
                             <td>{post.date}</td>
                             <td>{post.author}</td>
                             <td>{post.title}</td>
