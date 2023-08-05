@@ -1,11 +1,14 @@
 import { useEffect, useState } from "react";
 import { PostList } from "./components/PostList";
+import { Category } from "./components/Category";
+import { SeeMore } from "./components/SeeMore";
 
 export const SearchInfo = () => {
     const [searchText, setSearchText] = useState("");
     const [sortBy, setSortBy] = useState("popular");
     const [filteredPosts, setFilteredPosts] = useState([]);
     const [matchPosts, setMatchPosts] = useState(false);
+    const [selectCategory, setSelectCategory] = useState("");
 
     const searchChange = (e) => {
         setSearchText(e.target.value);
@@ -13,6 +16,10 @@ export const SearchInfo = () => {
 
     const sortChange = (e) => {
         setSortBy(e.target.value);
+    };
+
+    const handleCategoryChange = (category) => {
+        setSelectCategory(category);
     };
 
     const testData = [
@@ -23,6 +30,7 @@ export const SearchInfo = () => {
             bookmarks: 5,
             date: "2023-07-01",
             comment: "궁금하면 들어와!",
+            category: "건강",
         },
         {
             id: 2,
@@ -31,6 +39,7 @@ export const SearchInfo = () => {
             bookmarks: 2,
             date: "2023-07-03",
             comment: "이거 정말 엄청난 정보입니다!",
+            category: "자동차",
         },
         {
             id: 3,
@@ -39,6 +48,7 @@ export const SearchInfo = () => {
             bookmarks: 7,
             date: "2023-07-02",
             comment: "이 이야기는 블라블라",
+            category: "전자기기",
         },
     ];
 
@@ -66,8 +76,20 @@ export const SearchInfo = () => {
     };
 
     useEffect(() => {
-        sortPosts(filteredPosts, sortBy);
-    }, [sortBy, filteredPosts]);
+        let filtered = testData;
+        if (selectCategory) {
+            filtered = testData.filter(
+                (post) => post.category === selectCategory
+            );
+        }
+        const sorted = [...filtered];
+        if (sortBy === "newest") {
+            sorted.sort((a, b) => new Date(b.date) - new Date(a.date));
+        } else if (sortBy === "popular") {
+            sorted.sort((a, b) => b.likes - a.likes);
+        }
+        setFilteredPosts(sorted);
+    }, [sortBy, selectCategory]);
 
     return (
         <div>
@@ -87,11 +109,13 @@ export const SearchInfo = () => {
                     </select>
                 </label>
             </div>
+            <Category handleCategoryChange={handleCategoryChange} />
             {matchPosts ? (
                 <p>일치하는 게시물이 없습니다.</p>
             ) : (
                 <PostList posts={filteredPosts} />
             )}
+            <SeeMore />
             <button>글 작성</button>
         </div>
     );
