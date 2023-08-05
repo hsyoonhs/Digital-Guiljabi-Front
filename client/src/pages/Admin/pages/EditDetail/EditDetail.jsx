@@ -1,3 +1,6 @@
+import { useState } from "react";
+
+import { EditDialog } from "./Components/EditDialog";
 import "./style.css"
 
 export const EditDetail = () => {
@@ -9,6 +12,10 @@ export const EditDetail = () => {
         reason: "됍니다->됩니다로 고쳐주세요.",
         date: "2023.07.21 11:27"
     }
+
+    const [dialog, setDialog] = useState(false);
+    const closeDialog = () => setDialog(false);
+    const openDialog = () => setDialog(true);
 
     return (
         <section className="container">
@@ -40,9 +47,10 @@ export const EditDetail = () => {
             </div>
 
             <div className="edit-footer detail-footer">
-                <button>작성자에게 알리기</button>
+                <button onClick={openDialog}>작성자에게 알리기</button>
                 <button>무시하기</button>
             </div>
+            {dialog && <EditDialog close={closeDialog} />}
         </section>
     )
 };
