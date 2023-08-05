@@ -36,7 +36,7 @@ export const Sidebar = () => {
                 <img src="/images/logo.png" alt="logo" />
             </div> */}
             <div className="admin-sidebar__menu">
-                {pageInfo.map((page, index) => (page.name != "메인") && (
+                {pageInfo.map((page, index) => (page.name !== "메인") && (
                     <div key={index} className="admin-sidebar__menu__item">
                         <div className="admin-sidebar__menu__item__title">{page.name}</div>
                         <ul className="admin-sidebar__menu__item__list">
