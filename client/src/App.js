@@ -14,7 +14,7 @@ function App() {
     useEffect(() => {
         const api = process.env.REACT_APP_API_URL;
         console.log(api);
-        axios.post(`${api}/api/login/`, {
+        axios.post(`${api}/api/login`, {
             "uid": "admin"
         })
             .then(res => {
