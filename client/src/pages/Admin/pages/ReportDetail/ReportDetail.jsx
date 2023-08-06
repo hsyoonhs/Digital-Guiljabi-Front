@@ -22,7 +22,7 @@ export const ReportDetail = () => {
                 
                 setData(res.data);
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     }, [])
 
     const postRemove = () => {
@@ -36,7 +36,7 @@ export const ReportDetail = () => {
                 alert("삭제되었습니다.");
                 window.location.href = "/admin/service/report";
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.error(err));
     }
 
     const postUnhide = () => {
@@ -50,7 +50,7 @@ export const ReportDetail = () => {
                 alert("숨기기 해제되었습니다.");
                 window.location.href = "/admin/service/report";
             })
-            .catch((err) => console.log(err));
+            .catch((err) => console.error(err));
     }
 
     return (

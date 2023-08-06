@@ -1,7 +1,6 @@
 import { useNavigate } from "react-router-dom"
 
 export const PostTable = ({ type, data }) => {
-    console.log(data);
     const navigate = useNavigate()
     const onClick = (pk) => {
         navigate(`/admin/service/${type}/${pk}`)

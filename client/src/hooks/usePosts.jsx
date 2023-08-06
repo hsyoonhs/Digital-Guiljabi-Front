@@ -83,7 +83,6 @@ export const usePosts = (type, parameters = {}) => {
             }
         })
             .then((res) => {
-                console.log(res);
                 const data = res.data.list;
                 const result = parseData(data);
                 setPosts(result);

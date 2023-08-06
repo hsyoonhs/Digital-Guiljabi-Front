@@ -20,11 +20,10 @@ export const WaitDetail = () => {
             }
         })
             .then(res => {
-                console.log(res.data);
                 setData(res.data);
 
             })
-            .catch(err => console.log(err))
+            .catch(err => console.error(err))
     }, [id])
 
 
@@ -46,7 +45,7 @@ export const WaitDetail = () => {
                 alert("승인되었습니다.");
                 window.location.href = "/admin/service/wait";
             })
-            .catch(err => console.log(err))
+            .catch(err => console.error(err))
     }
 
     return (

@@ -7,18 +7,16 @@ export const WaitDialog = ({ close, id }) => {
     const [reason, setReason] = useState("")
     const reject = (r) => {
         const api = process.env.REACT_APP_API_URL;
-        console.log(r)
         axios.post(`${api}/api/v1/admin/boards/${id}/reject`,{rejReason: r}, {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
         })
             .then(res => {
-                console.log(res);
                 alert("거부되었습니다.");
                 window.location.href = "/admin/service/wait";
             })
-            .catch(err => console.log(err));
+            .catch(err => console.error(err));
     }
 
     return (
