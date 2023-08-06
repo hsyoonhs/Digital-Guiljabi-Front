@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 
-export const usePosts = (type) => {
+export const usePosts = (type, parameters = {}) => {
     const api = process.env.REACT_APP_API_URL;
     const [posts, setPosts] = useState([]);
 
@@ -55,8 +55,16 @@ export const usePosts = (type) => {
         return result;
     }
 
+    const constructUrl = (parameters) => {
+        let url = `${api}/api/v1/admin/${type}?`;
+        for (let key in parameters) {
+            url += `${key}=${parameters[key]}&`;
+        }
+        return url;
+    }
+
     useEffect(() => {
-        axios.get(`${api}/api/v1/admin/${type}`, {
+        axios.get(constructUrl(parameters), {
             headers: {
                 Authorization: `Bearer ${localStorage.getItem("token")}`
             }
@@ -70,7 +78,7 @@ export const usePosts = (type) => {
             .catch((err) => {
                 console.log(err);
             })
-    }, []);
+    }, [parameters]);
 
     return posts;
 }

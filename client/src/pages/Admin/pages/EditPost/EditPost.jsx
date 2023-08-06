@@ -1,16 +1,15 @@
+import { useState } from "react";
 import { usePosts } from "../../../../hooks/usePosts"
 import { PostTable } from "../../Components/PostTable"
 
 export const EditPost = () => {
 
-    const posts = usePosts("edit-requests");
+    const [params, setParams] = useState({});
+    const posts = usePosts("edit-requests", params);
 
     return (
         <section className="container">
             <h1>수정요청을 받은 글</h1>
-            <select>
-                <option>최신순</option>
-            </select>
 
             <PostTable type={"edit"} data={posts} />
         </section>
