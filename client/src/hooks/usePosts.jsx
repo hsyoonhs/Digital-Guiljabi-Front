@@ -42,6 +42,18 @@ export const usePosts = (type, parameters = {}) => {
         }
     }
 
+    const parsePk = (data) => {
+        if (type === "boards/waiting") {
+            return data.boardPk;
+        }
+        else if (type === "edit-requests") {
+            return data.editRequestPk;
+        }
+        else if (type === "boards/top-reported") {
+            return data.boardPk;
+        }
+    }
+
     const parseData = (data) => {
         
         const result = data.map((item) => {
@@ -49,7 +61,8 @@ export const usePosts = (type, parameters = {}) => {
                 date: parseDate(item),
                 title: item.title,
                 author: "홍길동",
-                remark: parseRemark(item)
+                remark: parseRemark(item),
+                pk : parsePk(item)
             }
         });
         return result;

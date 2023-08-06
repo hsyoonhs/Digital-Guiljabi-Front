@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router-dom"
 
 export const PostTable = ({ type, data }) => {
+    console.log(data);
     const navigate = useNavigate()
-    const onClick = () => {
-        navigate(`/admin/service/${type}/1`)
+    const onClick = (pk) => {
+        navigate(`/admin/service/${type}/${pk}`)
     }
     const typeToWord = {
         wait: "요청",
@@ -24,7 +25,7 @@ export const PostTable = ({ type, data }) => {
             <tbody>
                 {data.map((post, index) => {
                     return (
-                        <tr key={index} onClick={onClick}>
+                        <tr key={index} onClick={()=>onClick(post.pk)}>
                             <td>{post.date}</td>
                             <td>{post.author}</td>
                             <td>{post.title}</td>
