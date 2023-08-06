@@ -15,7 +15,7 @@ function App() {
         const api = process.env.REACT_APP_API_URL;
         console.log(api);
         axios.post(`${api}/api/login/`, {
-            "uid": "user"
+            "uid": "admin"
         })
             .then(res => {
                 if (res.data.token) localStorage.setItem("token", res.data.token);

@@ -1,24 +1,11 @@
 import { PostTable } from "../../Components/PostTable"
 
 import "../../../../styles/admin.css"
+import { usePosts } from "../../../../hooks/usePosts";
 
 export const WaitingPost = () => {
 
-    const tempData = [
-        {
-            date: "2021-09-01",
-            author: "홍길동",
-            title: "게시물 제목",
-            remark: "비고"
-        },
-        {
-            date: "2021-09-01",
-            author: "홍길동",
-            title: "게시물 제목",
-            remark: "비고"
-        },
-    ]
-
+    const posts = usePosts("boards/waiting");
 
     return (
         <section className="container">
@@ -27,7 +14,7 @@ export const WaitingPost = () => {
                 <option>최신순</option>
             </select>
 
-            <PostTable type={"wait"} data={tempData} />
+            <PostTable type={"wait"} data={posts} />
         </section>
     )
 }

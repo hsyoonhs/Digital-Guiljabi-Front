@@ -1,6 +1,10 @@
+import { usePosts } from "../../../../hooks/usePosts";
+
 import { PostTable } from "../../Components/PostTable"
 
 export const ReportPost = () => {
+
+    const posts = usePosts("boards/top-reported");    
 
     const tempData = [
         {
@@ -27,7 +31,7 @@ export const ReportPost = () => {
             <input type="checkbox" id="all" />
             <label htmlFor="all">누적 5회만 보기</label>
 
-            <PostTable type={"report"} data={tempData} />
+            <PostTable type={"report"} data={posts} />
         </section>  
     )
 }
