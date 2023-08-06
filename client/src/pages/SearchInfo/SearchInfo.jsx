@@ -1,14 +1,18 @@
-import { useEffect, useState, useMemo } from "react";
+import { useEffect, useState } from "react";
 import { PostList } from "./components/PostList";
 import { Category } from "./components/Category";
 import { SeeMore } from "./components/SeeMore";
+import axios from "axios";
 
 export const SearchInfo = () => {
+    const api_url = process.env.REACT_APP_API_URL;
     const [searchText, setSearchText] = useState("");
     const [sortBy, setSortBy] = useState("popular");
     const [filteredPosts, setFilteredPosts] = useState([]);
     const [matchPosts, setMatchPosts] = useState(false);
     const [selectCategory, setSelectCategory] = useState("");
+    const [loading, setLoading] = useState(true);
+    const [posts, setPosts] = useState([]);
 
     const searchChange = (e) => {
         setSearchText(e.target.value);
@@ -22,38 +26,30 @@ export const SearchInfo = () => {
         setSelectCategory(category);
     };
 
-    const testData = useMemo(() => [
-        {
-            id: 1,
-            title: "Post 1",
-            likes: 10,
-            bookmarks: 5,
-            date: "2023-07-01",
-            comment: "궁금하면 들어와!",
-            category: "건강",
-        },
-        {
-            id: 2,
-            title: "Post 3",
-            likes: 5,
-            bookmarks: 2,
-            date: "2023-07-03",
-            comment: "이거 정말 엄청난 정보입니다!",
-            category: "자동차",
-        },
-        {
-            id: 3,
-            title: "Post 2",
-            likes: 15,
-            bookmarks: 7,
-            date: "2023-07-02",
-            comment: "이 이야기는 블라블라",
-            category: "전자기기",
-        },
-    ], []);
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const response = await axios.get(`${api_url}/api/v1/boards/`, {
+                    header: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                });
+                const testDataFromServer = response.data;
+                setFilteredPosts(testDataFromServer);
+            } catch (error) {
+                console.error("Error : ", error);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchPosts();
+    }, []);
 
     const handleSearch = () => {
-        const filtered = testData.filter((post) =>
+        const filtered = posts.filter((post) =>
             post.title.toLowerCase().includes(searchText.toLowerCase())
         );
 
@@ -76,20 +72,16 @@ export const SearchInfo = () => {
     };
 
     useEffect(() => {
-        let filtered = testData;
+        let filtered = posts;
         if (selectCategory) {
-            filtered = testData.filter(
-                (post) => post.category === selectCategory
-            );
+            filtered = posts.filter((post) => post.category === selectCategory);
         }
-        const sorted = [...filtered];
-        if (sortBy === "newest") {
-            sorted.sort((a, b) => new Date(b.date) - new Date(a.date));
-        } else if (sortBy === "popular") {
-            sorted.sort((a, b) => b.likes - a.likes);
-        }
-        setFilteredPosts(sorted);
-    }, [sortBy, selectCategory, testData]);
+        sortPosts(filtered, sortBy);
+    }, [sortBy, selectCategory, posts]);
+
+    if (loading) {
+        return <p>로딩중입니다.</p>;
+    }
 
     return (
         <div>
