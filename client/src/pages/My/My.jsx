@@ -1,54 +1,57 @@
 import { UserInfo } from "./components/UserInfo";
 import { UserContent } from "./components/UserContent";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export const My = () => {
-    const initUserData = {
-        nickname: "commeci",
-        joinDate: "2023-07-28",
-        id1365: "commeci1365",
-        idVMS: "commeciVMS",
-        introduction: "내 이름은 commeci! 많은 정보를 알려주기 위해 노력할게!",
-    };
+    const api_url = process.env.REACT_APP_API_URL;
+    const [userData, setUserData] = useState(null);
+    const [bookmarkData, setBookmarkData] = useState([]);
+    const [writingsData, setWritingsData] = useState([]);
 
-    const [userData, setUserData] = useState({ ...initUserData });
+    useEffect(() => {
+        const fetchUserData = async () => {
+            try {
+                const response = await axios.get(
+                    `${api_url}/api/v1/users/info/my`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                "token"
+                            )}`,
+                        },
+                    }
+                );
+                const userDataFromServer = response.data;
+                setUserData(userDataFromServer);
+            } catch (error) {
+                console.error("Error 발생: ", error);
+            }
+        };
 
-    const bookmarkData = [
-        {
-            title: "bookmark1",
-            likes: 10,
-            bookmarks: 5,
-        },
-        {
-            title: "bookmark2",
-            likes: 10,
-            bookmarks: 5,
-        },
-    ];
+        const fetchBookmarkData = async () => {};
 
-    const writingsData = [
-        {
-            title: "writing1",
-            likes: 10,
-            bookmarks: 5,
-            state: "대기",
-        },
-        {
-            title: "writing2",
-            likes: 10,
-            bookmarks: 5,
-            state: "허용",
-        },
-    ];
+        const fetchWritingsData = async () => {};
+
+        fetchUserData();
+        fetchBookmarkData();
+        fetchWritingsData();
+    }, []);
 
     const saveUser = (editUser) => {
         setUserData({ ...editUser });
     };
 
+    console.log(userData);
+
     return (
         <>
             <h1>My</h1>
-            <UserInfo user={userData} onSave={saveUser} />
+            {userData === null ? (
+                <p>로딩중</p>
+            ) : (
+                <UserInfo user={userData} onSave={saveUser} />
+            )}
             <UserContent bookmarks={bookmarkData} writings={writingsData} />
         </>
     );
