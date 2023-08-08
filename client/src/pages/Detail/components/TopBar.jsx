@@ -1,6 +1,6 @@
 import React from "react";
 
-export const TopBar = ({ contents }) => {
+export const TopBar = ({ contents, modifyPost, deletePost }) => {
     return (
         <div>
             <img src={contents.thumbnailUrl} alt="" />
@@ -8,8 +8,8 @@ export const TopBar = ({ contents }) => {
             <img src="" alt="" />
             <label>{contents.writerName}</label>
             <label>{contents.updateAt}</label>
-            <button>수정</button>
-            <button>삭제</button>
+            <button onClick={modifyPost}>수정</button>
+            <button onClick={deletePost}>삭제</button>
         </div>
     );
 };

@@ -20,7 +20,7 @@ export const Detail = () => {
                     `${api_url}/api/v1/boards/${1}`,
                     {
                         headers: {
-                            Authorization: `Bearer: ${localStorage.getItem(
+                            Authorization: `Bearer ${localStorage.getItem(
                                 "token"
                             )}`,
                         },
@@ -29,21 +29,59 @@ export const Detail = () => {
                 const postDataFromServer = response.data;
                 setPost(postDataFromServer);
             } catch (error) {
-                console.error("Error 발생 : ", error);
+                console.error("Error 발생 (게시글): ", error);
             }
         };
 
         fetchPostData();
     }, []);
 
-    const handelCommentSubmit = (commentText) => {
-        const newComment = {
-            photo: "",
-            nickname: "후잉",
-            text: commentText,
+    useEffect(() => {
+        const fetchComments = async () => {
+            try {
+                const response = await axios.get(
+                    `${api_url}/api/v1/boards/${1}/comments?size=${10}&page=${1}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                "token"
+                            )}`,
+                        },
+                    }
+                );
+                const commentsData = response.data;
+                setComments(commentsData.comments);
+            } catch (error) {
+                console.error("Error 발생 (댓글 불러오기): ", error);
+            }
         };
 
-        setComments((prevComments) => [...prevComments, newComment]);
+        fetchComments();
+    }, [comments]);
+
+    const handleCommentSubmit = async (commentText) => {
+        const newComment = {
+            content: commentText,
+        };
+
+        try {
+            const response = await axios.post(
+                `${api_url}/api/v1/boards/${1}/comments`,
+                newComment,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+
+            const addedComment = response.data;
+            setComments((prevComments) => [...prevComments, addedComment]);
+        } catch (error) {
+            console.error("Error 발생 (댓글 작성): ", error);
+        }
     };
 
     const handleLike = () => {
@@ -59,11 +97,39 @@ export const Detail = () => {
     const handleBookmark = () => {
         setPost((prevPost) => ({
             ...prevPost,
-            bookmarks: prevPost.bookmarked
+            bookmarkCnt: prevPost.bookmarked
                 ? prevPost.bookmarkCnt - 1
                 : prevPost.bookmarkCnt + 1,
             bookmarked: !prevPost.bookmarked,
         }));
+    };
+
+    const handleDeleteComment = async (commentPk) => {
+        try {
+            await axios.delete(`${api_url}/api/v1/comments/${commentPk}`, {
+                headers: {
+                    Authorization: `Bearers ${localStorage.getItem("token")}`,
+                },
+            });
+            setComments((prevComments) =>
+                prevComments.filter(
+                    (comment) => comment.commentPk !== commentPk
+                )
+            );
+        } catch (error) {
+            console.error("Error 발생 (댓글 삭제): ", error);
+        }
+    };
+
+    const handleModifyPost = () => {
+        console.log("수정버튼 클릭");
+    };
+    const handleDeletePost = () => {
+        if (window.confirm("해당 게시글을 정말 삭제하시겠습니까?")) {
+            alert("삭제되었습니다.");
+        } else {
+            alert("삭제를 취소합니다.");
+        }
     };
 
     return (
@@ -72,7 +138,11 @@ export const Detail = () => {
                 <p>로딩중</p>
             ) : (
                 <>
-                    <TopBar contents={post} />
+                    <TopBar
+                        contents={post}
+                        modifyPost={handleModifyPost}
+                        deletePost={handleDeletePost}
+                    />
                     {post.cards.map((card, index) => (
                         <Form key={index} contents={card} />
                     ))}
@@ -88,10 +158,14 @@ export const Detail = () => {
                         handleLike={handleLike}
                         handleBookmark={handleBookmark}
                     />
-                    <Write submitComments={handelCommentSubmit} />
+                    <Write submitComments={handleCommentSubmit} />
 
-                    {comments.map((comment, index) => (
-                        <Comments key={index} contents={comment} />
+                    {comments.map((comment) => (
+                        <Comments
+                            key={comment.commentPk}
+                            contents={comment}
+                            onDelete={handleDeleteComment}
+                        />
                     ))}
                 </>
             )}
