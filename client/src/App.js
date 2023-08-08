@@ -1,12 +1,27 @@
 import "./styles/App.css";
 
-import React from "react";
+import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Detail, Home, My, SearchInfo } from "./pages";
 import { Navbar } from "./components/Navbar";
 
+import axios from "axios";
+
 function App() {
+    useEffect(() => {
+        const api = process.env.REACT_APP_API_URL;
+        console.log(api);
+        axios
+            .post(`${api}/api/login`, {
+                uid: "user",
+            })
+            .then((res) => {
+                if (res.data.token)
+                    localStorage.setItem("token", res.data.token);
+            })
+            .catch((err) => console.log(err));
+    }, []);
     return (
         <Router>
             <Navbar />
