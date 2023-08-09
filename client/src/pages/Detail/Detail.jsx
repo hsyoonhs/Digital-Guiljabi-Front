@@ -27,7 +27,9 @@ export const Detail = () => {
                     }
                 );
                 const postDataFromServer = response.data;
-                setPost(postDataFromServer);
+                const userLikedPost = postDataFromServer.userLikedPost;
+
+                setPost({ ...postDataFromServer, liked: userLikedPost });
             } catch (error) {
                 console.error("Error 발생 (게시글): ", error);
             }
