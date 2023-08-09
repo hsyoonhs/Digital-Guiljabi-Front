@@ -12,7 +12,7 @@ function App() {
         const api = process.env.REACT_APP_API_URL;
         console.log(api);
         axios
-            .post(`${api}/api/login/`, {
+            .post(`${api}/api/login`, {
                 uid: "admin",
             })
             .then((res) => {
