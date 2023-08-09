@@ -25,13 +25,47 @@ export const My = () => {
                 const userDataFromServer = response.data;
                 setUserData(userDataFromServer);
             } catch (error) {
-                console.error("Error 발생: ", error);
+                console.error("Error 발생 (유저 데이터) : ", error);
             }
         };
 
-        const fetchBookmarkData = async () => {};
+        const fetchBookmarkData = async () => {
+            try {
+                const response = await axios.get(
+                    `${api_url}/api/v1/bookmarks`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                "token"
+                            )}`,
+                        },
+                    }
+                );
+                const bookmarkDataFromServer = response.data;
+                setBookmarkData(bookmarkDataFromServer.list);
+            } catch (error) {
+                console.error("Error 발생 (북마크 불러오기) : ", error);
+            }
+        };
 
-        const fetchWritingsData = async () => {};
+        const fetchWritingsData = async () => {
+            try {
+                const response = await axios.get(
+                    `${api_url}/api/v1/boards/my`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                "token"
+                            )}`,
+                        },
+                    }
+                );
+                const writingDataFromServer = response.data;
+                setWritingsData(writingDataFromServer.list);
+            } catch (error) {
+                console.error("Error 발생 (작성 글 불러오기) : ", error);
+            }
+        };
 
         fetchUserData();
         fetchBookmarkData();
@@ -41,8 +75,6 @@ export const My = () => {
     const saveUser = (editUser) => {
         setUserData({ ...editUser });
     };
-
-    console.log(userData);
 
     return (
         <>

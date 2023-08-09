@@ -3,10 +3,11 @@ import React from "react";
 export const BookmarkItem = ({ bookmark }) => {
     return (
         <li>
-            <img alt=""/>
+            <img src={bookmark.thumbnail} alt="" />
             <h3>{bookmark.title}</h3>
-            <p>Likes: {bookmark.likes}</p>
-            <p>Books: {bookmark.bookmarks}</p>
+            <p>{bookmark.updateAt}</p>
+            <p>Likes: {bookmark.likeCnt}</p>
+            <p>Books: {bookmark.bookmarkCnt}</p>
         </li>
     );
 };

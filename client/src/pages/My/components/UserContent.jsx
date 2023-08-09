@@ -20,6 +20,7 @@ export const UserContent = ({ bookmarks, writings }) => {
                     {bookmarks.map((bookmark, index) => (
                         <BookmarkItem key={index} bookmark={bookmark} />
                     ))}
+                    {bookmarks.length === 0 && <p>북마크 목록이 없습니다.</p>}
                 </ul>
             )}
             {activeTab === "writing" && (
@@ -27,6 +28,7 @@ export const UserContent = ({ bookmarks, writings }) => {
                     {writings.map((writing, index) => (
                         <WritingItem key={index} writing={writing} />
                     ))}
+                    {writings.length === 0 && <p>작성 목록이 없습니다.</p>}
                 </ul>
             )}
         </div>

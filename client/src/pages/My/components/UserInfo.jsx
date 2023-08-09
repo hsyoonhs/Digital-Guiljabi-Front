@@ -57,7 +57,7 @@ export const UserInfo = ({ user, onSave }) => {
                 }
             );
         } catch (error) {
-            console.error("Error 발생 : ", error);
+            console.error("Error 발생 (유저 데이터 수정) : ", error);
         }
     };
 
@@ -67,7 +67,7 @@ export const UserInfo = ({ user, onSave }) => {
             formData.append("file", imageFile);
 
             const response = await axios.post(
-                `${api_url}/api/v1/users/info`,
+                `${api_url}/api/v1/users/info/profile`,
                 formData,
                 {
                     headers: {
@@ -81,7 +81,7 @@ export const UserInfo = ({ user, onSave }) => {
 
             return response.data.imageUrl;
         } catch (error) {
-            console.error("Error 발생 : ", error);
+            console.error("Error 발생 (프로필 사진) : ", error);
             return null;
         }
     };
