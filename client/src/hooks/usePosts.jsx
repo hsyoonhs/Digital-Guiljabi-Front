@@ -62,7 +62,7 @@ export const usePosts = (type, parameters = {}) => {
             return {
                 date: parseDate(item),
                 title: item.title,
-                author: "홍길동",
+                author: item.username,
                 remark: parseRemark(item),
                 pk: parsePk(item)
             }
