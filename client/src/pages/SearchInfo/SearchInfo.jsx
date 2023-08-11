@@ -7,7 +7,7 @@ import axios from "axios";
 export const SearchInfo = () => {
     const api_url = process.env.REACT_APP_API_URL;
     const [searchText, setSearchText] = useState("");
-    const [sortBy, setSortBy] = useState("popular");
+    const [sortBy, setSortBy] = useState("POP");
     const [filteredPosts, setFilteredPosts] = useState([]);
     const [matchPosts, setMatchPosts] = useState(false);
     const [selectCategory, setSelectCategory] = useState("");
@@ -29,15 +29,22 @@ export const SearchInfo = () => {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                const response = await axios.get(`${api_url}/api/v1/boards/`, {
-                    header: {
+                let apiUrl = `${api_url}/api/v1/boards?q=${searchText}&pageSize=10&page=1&sort=${sortBy}`;
+
+                if (selectCategory) {
+                    apiUrl = `${api_url}/api/v1/boards?categoryPk=${selectCategory}&q=${searchText}&pageSize=10&page=1&sort=${sortBy}`;
+                }
+
+                const response = await axios.get(apiUrl, {
+                    headers: {
                         Authorization: `Bearer ${localStorage.getItem(
                             "token"
                         )}`,
                     },
                 });
                 const testDataFromServer = response.data;
-                setFilteredPosts(testDataFromServer);
+                setFilteredPosts(testDataFromServer.list);
+                setPosts(testDataFromServer.list);
             } catch (error) {
                 console.error("Error : ", error);
             } finally {
@@ -46,7 +53,7 @@ export const SearchInfo = () => {
         };
 
         fetchPosts();
-    }, []);
+    }, [searchText, sortBy, seslectCategory]);
 
     const handleSearch = () => {
         const filtered = posts.filter((post) =>
@@ -57,27 +64,8 @@ export const SearchInfo = () => {
             setMatchPosts(true);
         } else {
             setMatchPosts(false);
-            sortPosts(filtered, sortBy);
         }
     };
-
-    const sortPosts = (posts, sortOption) => {
-        const sorted = [...posts];
-        if (sortOption === "newest") {
-            sorted.sort((a, b) => new Date(b.date) - new Date(a.date));
-        } else if (sortOption === "popular") {
-            sorted.sort((a, b) => b.likes - a.likes);
-        }
-        setFilteredPosts(sorted);
-    };
-
-    useEffect(() => {
-        let filtered = posts;
-        if (selectCategory) {
-            filtered = posts.filter((post) => post.category === selectCategory);
-        }
-        sortPosts(filtered, sortBy);
-    }, [sortBy, selectCategory, posts]);
 
     if (loading) {
         return <p>로딩중입니다.</p>;
@@ -96,8 +84,8 @@ export const SearchInfo = () => {
                 <button onClick={handleSearch}>검색</button>
                 <label>
                     <select value={sortBy} onChange={sortChange}>
-                        <option value="popular">인기순</option>
-                        <option value="newest">최신순</option>
+                        <option value="POP">인기순</option>
+                        <option value="NEW">최신순</option>
                     </select>
                 </label>
             </div>
@@ -112,5 +100,3 @@ export const SearchInfo = () => {
         </div>
     );
 };
-
-// page 매기는거 추가할 것
