@@ -1,30 +1,57 @@
+import { useState, useEffect } from "react";
+import { useParams } from "react-router-dom";
+
+import axios from "axios";
+
 import { ReportInfo } from "./Components/ReportInfo";
 
 import "./style.css"
 
 export const ReportDetail = () => {
+    const id = useParams().id;
 
-    const tempData = {
-        title: "카카오택시 잡는 방법! 이제 편하게 택시 잡으세요!",
-        author: "루꼴라 피자",
-        reasons : [
-            {
-                date: "23.07.21.11:27",
-                name: "루꼴라 피자",
-                reason: "마음에 안들어요",
-            },
-            {
-                date: "23.07.21.11:27",
-                name: "루꼴라 피자",
-                reason: "마음에 안들어요",
-            },
-            {
-                date: "23.07.21.11:27",
-                name: "루꼴라 피자",
-                reason: "마음에 안들어요",
-            },
-        ]
-    }   
+    const [data, setData] = useState(null);
+    useEffect(() => {
+        const api = process.env.REACT_APP_API_URL;
+        axios.get(`${api}/api/v1/admin/boards/${id}/reports`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .then(res => {
+                
+                setData(res.data);
+            })
+            .catch(err => console.error(err));
+    }, [])
+
+    const postRemove = () => {
+        const api = process.env.REACT_APP_API_URL;
+        axios.delete(`${api}/api/v1/boards/${id}`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .then((res) => {
+                alert("삭제되었습니다.");
+                window.location.href = "/admin/service/report";
+            })
+            .catch((err) => console.error(err));
+    }
+
+    const postUnhide = () => {
+        const api = process.env.REACT_APP_API_URL;
+        axios.delete(`${api}/api/v1/admin/boards/${id}/reports`, {
+            headers: {
+                Authorization: `Bearer ${localStorage.getItem("token")}`
+            }
+        })
+            .then((res) => {
+                alert("숨기기 해제되었습니다.");
+                window.location.href = "/admin/service/report";
+            })
+            .catch((err) => console.error(err));
+    }
 
     return (
         <section className="container">
@@ -33,23 +60,23 @@ export const ReportDetail = () => {
             <div className="report-header">
                 <div className="report-title">
                     <div>제목</div>
-                    <div>{tempData.title}</div>
+                    <div>{data?.title}</div>
                 </div>
                 <div className="report-author">
                     <div>글쓴이</div>
-                    <div>{tempData.author}</div>
+                    <div>{data?.author}</div>
                 </div>
             </div>
 
             <div className="report-body">
-                {tempData.reasons.map((reason, index) => 
+                {data?.repList?.map((reason, index) => 
                     <ReportInfo key={index} {...reason} />
                 )}
             </div>
 
             <div className="report-footer">
-                <button>숨기기 해제</button>
-                <button>신고글 삭제</button>
+                <button onClick={postUnhide}>숨기기 해제</button>
+                <button onClick={postRemove}>신고글 삭제</button>
             </div>
 
         </section>
