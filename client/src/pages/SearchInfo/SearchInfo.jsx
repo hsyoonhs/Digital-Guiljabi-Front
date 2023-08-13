@@ -53,7 +53,7 @@ export const SearchInfo = () => {
         };
 
         fetchPosts();
-    }, [searchText, sortBy, seslectCategory]);
+    }, [searchText, sortBy, selectCategory]);
 
     const handleSearch = () => {
         const filtered = posts.filter((post) =>
