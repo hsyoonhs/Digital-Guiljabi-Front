@@ -3,7 +3,7 @@ import "./styles/App.css";
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import { Detail, Home, My, SearchInfo, Admin } from "./pages";
+import { Detail, Home, My, SearchInfo, Admin, Posting } from "./pages";
 import { UserLayout } from "./components/Layout/UserLayout";
 import { AdminLayout } from "./components/Layout/AdminLayout";
 
@@ -30,6 +30,7 @@ function App() {
                     <Route path="detailInfo" element={<Detail />} />
                     <Route path="my" element={<My />} />
                     <Route path="search" element={<SearchInfo />} />
+                    <Route path="posting" element={<Posting />} />
                 </Route>
                 <Route path="/admin" element={<AdminLayout />} >
                     <Route index element={<Admin />} />
