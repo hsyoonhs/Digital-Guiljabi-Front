@@ -1,15 +1,18 @@
 import { useState } from "react";
+import axios from "axios";
 
 export const Request = () => {
-    const [selectedOption, setSelectedOption] = useState("report");
+    const api_url = process.env.REACT_APP_API_URL;
+    const [selectedOption, setSelectedOption] = useState("reports");
     const [showReportOptions, setShowReportOptions] = useState(true);
     const [reason, setReason] = useState("");
+    const [reportType, setRepotType] = useState("");
 
     const optionChange = (e) => {
         const selectedValue = e.target.value;
         setSelectedOption(selectedValue);
 
-        if (selectedValue === "report") {
+        if (selectedValue === "reports") {
             setShowReportOptions(true);
         } else {
             setShowReportOptions(false);
@@ -20,8 +23,40 @@ export const Request = () => {
         setReason(e.target.value);
     };
 
-    const submitReason = () => {
-        alert("제출 성공");
+    const reportTypeChange = (e) => {
+        setRepotType(e.target.value);
+    };
+
+    const submitReason = async () => {
+        try {
+            let requestData = {};
+
+            if (selectedOption === "reports") {
+                requestData = {
+                    type: reportType,
+                    content: reason,
+                };
+            } else if (selectedOption === "edit-requests") {
+                requestData = {
+                    content: reason,
+                };
+            }
+            const response = await axios.post(
+                `${api_url}/api/v1/boards/${3}/${selectedOption}`,
+                requestData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+            console.log(response);
+            alert("요청 제출 성공");
+        } catch (error) {
+            console.error("Error : ", error);
+        }
     };
 
     return (
@@ -30,8 +65,9 @@ export const Request = () => {
             <label>
                 <input
                     type="radio"
-                    value="report"
-                    checked={selectedOption === "report"}
+                    value="reports"
+                    name="request"
+                    checked={selectedOption === "reports"}
                     onChange={optionChange}
                 />
                 신고
@@ -39,29 +75,50 @@ export const Request = () => {
             <label>
                 <input
                     type="radio"
-                    value="modify"
-                    checked={selectedOption === "modify"}
+                    value="edit-requests"
+                    name="request"
+                    checked={selectedOption === "edit-requests"}
                     onChange={optionChange}
                 />
                 수정
             </label>
 
-            {selectedOption === "report" && showReportOptions && (
+            {selectedOption === "reports" && showReportOptions && (
                 <div>
                     <label>
-                        <input type="radio" value="option1" />
+                        <input
+                            type="radio"
+                            value="IRREL"
+                            name="reportClick"
+                            onChange={reportTypeChange}
+                        />
                         내용 불일치
                     </label>
                     <label>
-                        <input type="radio" value="option2" />
+                        <input
+                            type="radio"
+                            value="CPOYR"
+                            name="reportClick"
+                            onChange={reportTypeChange}
+                        />
                         저작권 침해
                     </label>
                     <label>
-                        <input type="radio" value="option3" />
+                        <input
+                            type="radio"
+                            value="NOXI"
+                            name="reportClick"
+                            onChange={reportTypeChange}
+                        />
                         유해, 광고성
                     </label>
                     <label>
-                        <input type="radio" value="option4" />
+                        <input
+                            type="radio"
+                            value="ETC"
+                            name="reportClick"
+                            onChange={reportTypeChange}
+                        />
                         기타
                     </label>
                 </div>
