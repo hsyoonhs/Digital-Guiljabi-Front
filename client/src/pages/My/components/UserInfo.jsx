@@ -1,17 +1,30 @@
 import React, { useState } from "react";
+import axios from "axios";
 
 export const UserInfo = ({ user, onSave }) => {
+    const api_url = process.env.REACT_APP_API_URL;
     const [editing, setEditing] = useState(false);
     const [editUser, setEditUser] = useState({ ...user });
+    const [profilePicture, setProfilePicture] = useState("");
 
     const handleEditClick = () => {
         setEditing(true);
     };
 
-    const handleSaveClick = () => {
+    const handleSaveClick = async () => {
         setEditing(false);
         console.log(editUser);
         onSave(editUser);
+
+        if (profilePicture) {
+            const imageUrl = await uploadProfilePicture(profilePicture);
+            if (imageUrl) {
+                const updatedUserProfile = { ...editUser, imgUrl: imageUrl };
+                sendUpdateUserInfo(updatedUserProfile);
+            }
+        } else {
+            sendUpdateUserInfo(editUser);
+        }
     };
 
     const handleInputChange = (e) => {
@@ -19,10 +32,71 @@ export const UserInfo = ({ user, onSave }) => {
         setEditUser((prevUser) => ({ ...prevUser, [name]: value }));
     };
 
+    const handleProfileChange = (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            const reader = new FileReader();
+            reader.onloadend = () => {
+                setProfilePicture(reader.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    };
+
+    const sendUpdateUserInfo = async (updatedUser) => {
+        try {
+            const response = await axios.patch(
+                `${api_url}/api/v1/users/info`,
+                updatedUser,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+        } catch (error) {
+            console.error("Error 발생 (유저 데이터 수정) : ", error);
+        }
+    };
+
+    const uploadProfilePicture = async (imageFile) => {
+        try {
+            const formData = new FormData();
+            formData.append("file", imageFile);
+
+            const response = await axios.post(
+                `${api_url}/api/v1/users/info/profile`,
+                formData,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "token"
+                        )}`,
+                        "Content-Type": "multipart/form-data",
+                    },
+                }
+            );
+
+            return response.data.imageUrl;
+        } catch (error) {
+            console.error("Error 발생 (프로필 사진) : ", error);
+            return null;
+        }
+    };
+
     return (
         <div>
             <div>
-                <img src="" alt="프로필" />
+                <img src={user.imgUrl} alt="프로필" />
+                {editing && (
+                    <input
+                        type="file"
+                        accept="image/*"
+                        onChange={handleProfileChange}
+                    />
+                )}
             </div>
             <div>
                 <div>
@@ -31,16 +105,16 @@ export const UserInfo = ({ user, onSave }) => {
                         {editing ? (
                             <input
                                 name="nickname"
-                                value={editUser.nickname}
+                                value={editUser.nickname ?? ""}
                                 onChange={handleInputChange}
                             />
                         ) : (
-                            user.nickname
+                            user.nickname ?? ""
                         )}
                     </p>
                 </div>
                 <div>
-                    <p>가입날짜 : {user.joinDate}</p>
+                    <p>가입날짜 : {user.joinAt}</p>
                 </div>
                 <div>
                     <p>
@@ -48,11 +122,11 @@ export const UserInfo = ({ user, onSave }) => {
                         {editing ? (
                             <input
                                 name="id1365"
-                                value={editUser.id1365}
+                                value={editUser.id1365 ?? ""}
                                 onChange={handleInputChange}
                             />
                         ) : (
-                            user.id1365
+                            user.id1365 ?? ""
                         )}
                     </p>
                 </div>
@@ -61,12 +135,12 @@ export const UserInfo = ({ user, onSave }) => {
                         VMS 아이디 :{" "}
                         {editing ? (
                             <input
-                                name="idVMS"
-                                value={editUser.idVMS}
+                                name="idVms"
+                                value={editUser.idVms ?? ""}
                                 onChange={handleInputChange}
                             />
                         ) : (
-                            user.idVMS
+                            user.idVms ?? ""
                         )}
                     </p>
                 </div>
@@ -76,11 +150,11 @@ export const UserInfo = ({ user, onSave }) => {
                         {editing ? (
                             <textarea
                                 name="introduction"
-                                value={editUser.introduction}
+                                value={editUser.introduction ?? ""}
                                 onChange={handleInputChange}
                             />
                         ) : (
-                            user.introduction
+                            user.introduction ?? ""
                         )}
                     </p>
                 </div>
