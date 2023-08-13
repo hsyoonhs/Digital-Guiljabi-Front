@@ -13,6 +13,9 @@ export const SearchInfo = () => {
     const [selectCategory, setSelectCategory] = useState("");
     const [loading, setLoading] = useState(true);
     const [posts, setPosts] = useState([]);
+    const [categories, setCategories] = useState([]);
+    const [currentPage, setCurrentPage] = useState(1);
+    const [pageSize, setPageSize] = useState(10);
 
     const searchChange = (e) => {
         setSearchText(e.target.value);
@@ -26,13 +29,18 @@ export const SearchInfo = () => {
         setSelectCategory(category);
     };
 
+    const handleMore = () => {
+        setCurrentPage(currentPage + 1);
+        setPageSize(pageSize + 10);
+    };
+
     useEffect(() => {
         const fetchPosts = async () => {
             try {
-                let apiUrl = `${api_url}/api/v1/boards?q=${searchText}&pageSize=10&page=1&sort=${sortBy}`;
+                let apiUrl = `${api_url}/api/v1/boards?q=${searchText}&pageSize=${pageSize}&page=${currentPage}&sort=${sortBy}`;
 
                 if (selectCategory) {
-                    apiUrl = `${api_url}/api/v1/boards?categoryPk=${selectCategory}&q=${searchText}&pageSize=10&page=1&sort=${sortBy}`;
+                    apiUrl = `${api_url}/api/v1/boards?categoryPk=${selectCategory}&q=${searchText}&pageSize=${pageSize}&page=${currentPage}&sort=${sortBy}`;
                 }
 
                 const response = await axios.get(apiUrl, {
@@ -43,8 +51,8 @@ export const SearchInfo = () => {
                     },
                 });
                 const testDataFromServer = response.data;
-                setFilteredPosts(testDataFromServer.list);
-                setPosts(testDataFromServer.list);
+                setFilteredPosts([...testDataFromServer.list]);
+                setPosts([...testDataFromServer.list]);
             } catch (error) {
                 console.error("Error : ", error);
             } finally {
@@ -52,8 +60,21 @@ export const SearchInfo = () => {
             }
         };
 
+        const fetchCategories = async () => {
+            try {
+                const response = await axios.get(
+                    `${api_url}/api/v1/categories/root`
+                );
+                const categoriesFromServer = response.data.list;
+                setCategories(categoriesFromServer);
+            } catch (error) {
+                console.error("Error 발생(카테고리) : ", error);
+            }
+        };
+
         fetchPosts();
-    }, [searchText, sortBy, selectCategory]);
+        fetchCategories();
+    }, [searchText, sortBy, selectCategory, currentPage, pageSize]);
 
     const handleSearch = () => {
         const filtered = posts.filter((post) =>
@@ -89,13 +110,16 @@ export const SearchInfo = () => {
                     </select>
                 </label>
             </div>
-            <Category handleCategoryChange={handleCategoryChange} />
+            <Category
+                handleCategoryChange={handleCategoryChange}
+                categories={categories}
+            />
             {matchPosts ? (
                 <p>일치하는 게시물이 없습니다.</p>
             ) : (
                 <PostList posts={filteredPosts} />
             )}
-            <SeeMore />
+            <SeeMore handleMore={handleMore} />
             <button>글 작성</button>
         </div>
     );
