@@ -42,7 +42,7 @@ export const My = () => {
                     }
                 );
                 const bookmarkDataFromServer = response.data;
-                setBookmarkData(bookmarkDataFromServer.list);
+                setBookmarkData(bookmarkDataFromServer.bookmarkResponses);
             } catch (error) {
                 console.error("Error 발생 (북마크 불러오기) : ", error);
             }

@@ -13,7 +13,7 @@ function App() {
         console.log(api);
         axios
             .post(`${api}/api/login`, {
-                uid: "admin",
+                uid: "commeci",
             })
             .then((res) => {
                 if (res.data.token)
