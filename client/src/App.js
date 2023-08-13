@@ -1,7 +1,6 @@
 import "./styles/App.css";
 
 import React, { useEffect } from "react";
-import axios from "axios";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Detail, Home, My, SearchInfo, Admin, Posting } from "./pages";
