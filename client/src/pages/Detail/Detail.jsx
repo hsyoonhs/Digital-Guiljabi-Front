@@ -7,20 +7,22 @@ import { Tag } from "./components/Tag";
 import { Action } from "./components/Action";
 import { Comments } from "./components/Comments";
 import { Write } from "./components/Write";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 export const Detail = () => {
     const api_url = process.env.REACT_APP_API_URL;
     const [comments, setComments] = useState([]);
     const [post, setPost] = useState(null);
-    const { id } = useParams();
-    const boardPk = parseInt(id, 10);
+    const params = useParams();
+    const navigate = useNavigate();
+    console.log("게시판", params);
+    console.log("게시판", params.id);
 
     useEffect(() => {
         const fetchPostData = async () => {
             try {
                 const response = await axios.get(
-                    `${api_url}/api/v1/boards/${boardPk}`,
+                    `${api_url}/api/v1/boards/${params.id}`,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem(
@@ -45,7 +47,9 @@ export const Detail = () => {
         const fetchComments = async () => {
             try {
                 const response = await axios.get(
-                    `${api_url}/api/v1/boards/${boardPk}/comments?size=${10}&page=${1}`,
+                    `${api_url}/api/v1/boards/${
+                        params.id
+                    }/comments?size=${10}&page=${1}`,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem(
@@ -71,7 +75,7 @@ export const Detail = () => {
 
         try {
             const response = await axios.post(
-                `${api_url}/api/v1/boards/${boardPk}/comments`,
+                `${api_url}/api/v1/boards/${params.id}/comments`,
                 newComment,
                 {
                     headers: {
@@ -137,6 +141,10 @@ export const Detail = () => {
         }
     };
 
+    const handleRequest = () => {
+        navigate(`/request/${params.id}`);
+    };
+
     return (
         <div>
             {post === null ? (
@@ -162,6 +170,7 @@ export const Detail = () => {
                         contents={post}
                         handleLike={handleLike}
                         handleBookmark={handleBookmark}
+                        handleRequest={handleRequest}
                     />
                     <Write submitComments={handleCommentSubmit} />
 
