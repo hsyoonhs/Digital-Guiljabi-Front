@@ -6,7 +6,7 @@ export const WritingItem = ({ writing }) => {
         <li>
             <img src={writing.thumbnail} alt="" />
             <h3>
-                <Link to={`/detailInfo?id=${writing.boardPk}`}>
+                <Link to={`/detailInfo/${writing.boardPk}`}>
                     {writing.title}
                 </Link>
             </h3>

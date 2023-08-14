@@ -6,7 +6,7 @@ export const BookmarkItem = ({ bookmark }) => {
         <li>
             <img src={bookmark.thumbnail} alt="" />
             <h3>
-                <Link to={`/detailInfo?id=${bookmark.boardPk}`}>
+                <Link to={`/detailInfo/${bookmark.boardPk}`}>
                     {bookmark.title}
                 </Link>
             </h3>
