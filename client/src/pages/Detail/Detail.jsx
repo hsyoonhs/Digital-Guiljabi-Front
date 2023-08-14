@@ -7,17 +7,20 @@ import { Tag } from "./components/Tag";
 import { Action } from "./components/Action";
 import { Comments } from "./components/Comments";
 import { Write } from "./components/Write";
+import { useParams } from "react-router-dom";
 
 export const Detail = () => {
     const api_url = process.env.REACT_APP_API_URL;
     const [comments, setComments] = useState([]);
     const [post, setPost] = useState(null);
+    const { id } = useParams();
+    const boardPk = parseInt(id, 10);
 
     useEffect(() => {
         const fetchPostData = async () => {
             try {
                 const response = await axios.get(
-                    `${api_url}/api/v1/boards/${1}`,
+                    `${api_url}/api/v1/boards/${boardPk}`,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem(
@@ -42,7 +45,7 @@ export const Detail = () => {
         const fetchComments = async () => {
             try {
                 const response = await axios.get(
-                    `${api_url}/api/v1/boards/${1}/comments?size=${10}&page=${1}`,
+                    `${api_url}/api/v1/boards/${boardPk}/comments?size=${10}&page=${1}`,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem(
@@ -68,7 +71,7 @@ export const Detail = () => {
 
         try {
             const response = await axios.post(
-                `${api_url}/api/v1/boards/${1}/comments`,
+                `${api_url}/api/v1/boards/${boardPk}/comments`,
                 newComment,
                 {
                     headers: {

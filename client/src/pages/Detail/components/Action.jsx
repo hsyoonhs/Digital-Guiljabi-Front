@@ -1,22 +1,28 @@
 import React from "react";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 export const Action = ({ contents, handleLike, handleBookmark }) => {
     const api_url = process.env.REACT_APP_API_URL;
+    const { id } = useParams();
+    const boardPk = parseInt(id, 10);
 
     const toggleLike = async () => {
         try {
             if (contents.liked) {
-                await axios.delete(`${api_url}/api/v1/boards/${1}/likes`, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "token"
-                        )}`,
-                    },
-                });
+                await axios.delete(
+                    `${api_url}/api/v1/boards/${boardPk}/likes`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                "token"
+                            )}`,
+                        },
+                    }
+                );
             } else {
                 await axios.post(
-                    `${api_url}/api/v1/boards/${1}/likes`,
+                    `${api_url}/api/v1/boards/${boardPk}/likes`,
                     {},
                     {
                         headers: {
@@ -37,16 +43,19 @@ export const Action = ({ contents, handleLike, handleBookmark }) => {
     const toggleBookmark = async () => {
         try {
             if (contents.bookmarked) {
-                await axios.delete(`${api_url}/api/v1/boards/${1}/bookmarks`, {
-                    headers: {
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "token"
-                        )}`,
-                    },
-                });
+                await axios.delete(
+                    `${api_url}/api/v1/boards/${boardPk}/bookmarks`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                "token"
+                            )}`,
+                        },
+                    }
+                );
             } else {
                 await axios.post(
-                    `${api_url}/api/v1/boards/${1}/bookmarks`,
+                    `${api_url}/api/v1/boards/${boardPk}/bookmarks`,
                     {},
                     {
                         headers: {
