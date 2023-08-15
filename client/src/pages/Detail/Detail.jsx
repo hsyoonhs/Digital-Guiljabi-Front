@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 import { TopBar } from "./components/TopBar";
 import { Form } from "./components/Form";
 import { Source } from "./components/Source";
@@ -7,12 +8,13 @@ import { Tag } from "./components/Tag";
 import { Action } from "./components/Action";
 import { Comments } from "./components/Comments";
 import { Write } from "./components/Write";
-import { useNavigate, useParams } from "react-router-dom";
+import { CommentMore } from "./components/CommentMore";
 
 export const Detail = () => {
     const api_url = process.env.REACT_APP_API_URL;
     const [comments, setComments] = useState([]);
     const [post, setPost] = useState(null);
+    const [size, setSize] = useState(10);
     const params = useParams();
     const navigate = useNavigate();
     console.log("게시판", params);
@@ -48,7 +50,7 @@ export const Detail = () => {
                 const response = await axios.get(
                     `${api_url}/api/v1/boards/${
                         params.id
-                    }/comments?size=${10}&page=${1}`,
+                    }/comments?size=${size}&page=${1}`,
                     {
                         headers: {
                             Authorization: `Bearer ${localStorage.getItem(
@@ -220,6 +222,10 @@ export const Detail = () => {
         }
     };
 
+    const handleMoreClick = () => {
+        setSize(size + 10);
+    };
+
     return (
         <div>
             {post === null ? (
@@ -259,6 +265,7 @@ export const Detail = () => {
                             onDelete={handleDeleteComment}
                         />
                     ))}
+                    <CommentMore handleMoreClick={handleMoreClick} />
                 </>
             )}
         </div>
