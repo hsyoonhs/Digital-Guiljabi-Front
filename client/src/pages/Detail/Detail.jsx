@@ -18,28 +18,27 @@ export const Detail = () => {
     console.log("게시판", params);
     console.log("게시판", params.id);
 
+    const fetchPostData = async () => {
+        try {
+            const response = await axios.get(
+                `${api_url}/api/v1/boards/${params.id}`,
+                {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                }
+            );
+            const postDataFromServer = response.data;
+
+            setPost(postDataFromServer);
+        } catch (error) {
+            console.error("Error 발생 (게시글): ", error);
+        }
+    };
+
     useEffect(() => {
-        const fetchPostData = async () => {
-            try {
-                const response = await axios.get(
-                    `${api_url}/api/v1/boards/${params.id}`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${localStorage.getItem(
-                                "token"
-                            )}`,
-                        },
-                    }
-                );
-                const postDataFromServer = response.data;
-                const userLikedPost = postDataFromServer.userLikedPost;
-
-                setPost({ ...postDataFromServer, liked: userLikedPost });
-            } catch (error) {
-                console.error("Error 발생 (게시글): ", error);
-            }
-        };
-
         fetchPostData();
     }, []);
 
@@ -96,9 +95,6 @@ export const Detail = () => {
     const handleLike = () => {
         setPost((prevPost) => ({
             ...prevPost,
-            likeCnt: prevPost.liked
-                ? prevPost.likeCnt - 1
-                : prevPost.likeCnt + 1,
             liked: !prevPost.liked,
         }));
     };
@@ -106,9 +102,6 @@ export const Detail = () => {
     const handleBookmark = () => {
         setPost((prevPost) => ({
             ...prevPost,
-            bookmarkCnt: prevPost.bookmarked
-                ? prevPost.bookmarkCnt - 1
-                : prevPost.bookmarkCnt + 1,
             bookmarked: !prevPost.bookmarked,
         }));
     };
@@ -126,23 +119,105 @@ export const Detail = () => {
                 )
             );
         } catch (error) {
+            console.log(commentPk);
             console.error("Error 발생 (댓글 삭제): ", error);
+            alert("작성자가 아니면 삭제할 수 없습니다!");
         }
     };
 
     const handleModifyPost = () => {
-        console.log("수정버튼 클릭");
+        navigate(`/posting/${params.id}`);
     };
-    const handleDeletePost = () => {
-        if (window.confirm("해당 게시글을 정말 삭제하시겠습니까?")) {
-            alert("삭제되었습니다.");
-        } else {
-            alert("삭제를 취소합니다.");
+    const handleDeletePost = async () => {
+        try {
+            if (window.confirm("해당 게시글을 정말 삭제하시겠습니까?")) {
+                await axios.delete(`${api_url}/api/v1/boards/${params.id}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                });
+                alert("삭제되었습니다.");
+            } else {
+                alert("삭제를 취소합니다.");
+            }
+        } catch (error) {
+            console.error("Error 발생 : ", error);
+            alert("작성자가 아니면 게시글을 삭제할 수 없습니다!");
         }
     };
 
     const handleRequest = () => {
         navigate(`/request/${params.id}`);
+    };
+
+    const toggleLike = async () => {
+        try {
+            if (post.liked) {
+                await axios.delete(
+                    `${api_url}/api/v1/boards/${params.id}/likes`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                "token"
+                            )}`,
+                        },
+                    }
+                );
+            } else {
+                await axios.post(
+                    `${api_url}/api/v1/boards/${params.id}/likes`,
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                "token"
+                            )}`,
+                        },
+                    }
+                );
+            }
+
+            handleLike();
+            fetchPostData();
+        } catch (error) {
+            console.log("Error 발생 (좋아요) : ", error);
+        }
+    };
+
+    const toggleBookmark = async () => {
+        try {
+            if (post.bookmarked) {
+                await axios.delete(
+                    `${api_url}/api/v1/boards/${params.id}/bookmarks`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                "token"
+                            )}`,
+                        },
+                    }
+                );
+            } else {
+                await axios.post(
+                    `${api_url}/api/v1/boards/${params.id}/bookmarks`,
+                    {},
+                    {
+                        headers: {
+                            Authorization: `Bearer ${localStorage.getItem(
+                                "token"
+                            )}`,
+                        },
+                    }
+                );
+            }
+
+            handleBookmark();
+            fetchPostData();
+        } catch (error) {
+            console.log("Error 발생 (북마크) : ", error);
+        }
     };
 
     return (
@@ -171,6 +246,9 @@ export const Detail = () => {
                         handleLike={handleLike}
                         handleBookmark={handleBookmark}
                         handleRequest={handleRequest}
+                        setPost={setPost}
+                        toggleLike={toggleLike}
+                        toggleBookmark={toggleBookmark}
                     />
                     <Write submitComments={handleCommentSubmit} />
 
