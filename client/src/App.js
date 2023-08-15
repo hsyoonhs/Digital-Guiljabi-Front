@@ -1,12 +1,18 @@
 import "./styles/App.css";
 
+import React from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+
+import { Navbar } from "./components/Navbar";
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
-import { Detail, Home, My, SearchInfo, Admin, Posting } from "./pages";
+import { Detail, Home, My, SearchInfo, Admin, Posting, Request } from "./pages";
 import { UserLayout } from "./components/Layout/UserLayout";
 import { AdminLayout } from "./components/Layout/AdminLayout";
 import axios from "axios";
+
+import "./Firebase"
 
 function App() {
     useEffect(() => {
@@ -24,10 +30,13 @@ function App() {
 
     return (
         <Router>
+            <Navbar />
             <Routes>
                 <Route path="/" element={<UserLayout />}>
                     <Route index element={<Home />} />
                     <Route path="detailInfo/:id" element={<Detail />} />
+                    <Route path="request" element={<Request />} />
+                    <Route path="detailInfo" element={<Detail />} />
                     <Route path="my" element={<My />} />
                     <Route path="search" element={<SearchInfo />} />
                     <Route path="posting" element={<Posting />} />
