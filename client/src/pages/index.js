@@ -1,3 +1,5 @@
+export { Home } from "./Home";
+export { Request } from "./Request";
 export { Detail } from "./Detail";
 export { Home } from "./Home";
 export { My } from "./My";
