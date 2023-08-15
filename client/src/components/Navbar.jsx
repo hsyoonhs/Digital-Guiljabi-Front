@@ -20,6 +20,7 @@ export const Navbar = () => {
                 <button onClick={() => navigate("/search")}>Search</button>
                 <button onClick={() => navigate("/admin")}>Admin</button>
                 <button onClick={() => navigate("/posting")}>Posting</button>
+                <button onClick={() => navigate("/login")}>Login</button>
             </div>
         </div>
     );
