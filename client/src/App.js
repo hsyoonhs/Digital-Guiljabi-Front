@@ -12,6 +12,8 @@ import { UserLayout } from "./components/Layout/UserLayout";
 import { AdminLayout } from "./components/Layout/AdminLayout";
 import axios from "axios";
 
+import "./Firebase"
+
 function App() {
 
     useEffect(() => {
