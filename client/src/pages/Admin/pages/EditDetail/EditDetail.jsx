@@ -85,7 +85,7 @@ export const EditDetail = () => {
                 <button onClick={openDialog}>작성자에게 알리기</button>
                 <button onClick={ignoreEdit}>무시하기</button>
             </div>
-            {dialog && <EditDialog close={closeDialog} pk={id} />}
+            {dialog && <EditDialog close={closeDialog} pk={data.boardPk} />}
         </section>
     )
 };
