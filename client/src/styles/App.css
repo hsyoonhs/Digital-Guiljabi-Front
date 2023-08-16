@@ -10,6 +10,7 @@
     --white-3-color: 225, 225, 225;
 
     --app-background-color: var(--white-0-color);
+    --app-footer-background-color: 4, 6, 11;
     --app-text-color: 50, 50, 50;
 }
 
@@ -38,12 +39,16 @@ code {
 
 /*----- 레이아웃 -----*/
 
-#root {
+.content-area {
     max-width: var(--content-max-width);
     margin: 0 auto;
 }
 
-.main-area {
+.content-area__header {
+    padding: 5vh 6%;
+}
+
+.content-area__main {
     display: flex;
     flex-direction: column;
     gap: 5vh;

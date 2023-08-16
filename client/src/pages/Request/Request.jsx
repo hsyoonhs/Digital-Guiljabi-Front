@@ -60,7 +60,7 @@ export const Request = () => {
     };
 
     return (
-        <main className="main-area">
+        <main className="content-area__main">
             <h1>Request</h1>
             <label>
                 <input

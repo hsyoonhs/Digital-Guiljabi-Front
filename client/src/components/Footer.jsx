@@ -1,16 +1,19 @@
-import "../styles/Navbar.css";
+import "../styles/Footer.css";
 
 import { useNavigate } from "react-router-dom";
 
-export const Navbar = () => {
+export const Footer = () => {
     const navigate = useNavigate();
 
     return (
-        <nav className="navbar">
-            <div className="navbar__logo">
-                <h1>Logo</h1>
+        <footer className="footer">
+            <div className="footer__logo">
+                <h1>Team-Connecter</h1>
+                <p>
+                    © 2023 <strong>디지털 길잡이</strong>
+                </p>
             </div>
-            <div className="navbar__links">
+            <div className="footer__links">
                 <button onClick={() => navigate("/")}>Home</button>
                 <button onClick={() => navigate("/about")}>About</button>
                 <button onClick={() => navigate("/contact")}>Contact</button>
@@ -21,6 +24,6 @@ export const Navbar = () => {
                 <button onClick={() => navigate("/admin")}>Admin</button>
                 <button onClick={() => navigate("/posting")}>Posting</button>
             </div>
-        </nav>
+        </footer>
     );
 };

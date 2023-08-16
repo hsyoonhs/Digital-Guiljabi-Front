@@ -145,7 +145,7 @@ export const Posting = () => {
     };
 
     return (
-        <main className="main-area">
+        <main className="content-area__main">
             {step}
             {loadComponent()}
         </main>

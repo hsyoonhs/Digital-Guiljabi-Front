@@ -77,7 +77,7 @@ export const My = () => {
     };
 
     return (
-        <main className="main-area">
+        <main className="content-area__main">
             <h1>My</h1>
             {userData === null ? (
                 <p>로딩중</p>

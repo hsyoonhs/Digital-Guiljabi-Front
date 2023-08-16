@@ -36,7 +36,7 @@ export const Home = () => {
 
     return (
         <>
-            <header>
+            <header className="content-area__header">
                 <div>
                     <img src="" alt="디지털 길잡이 로고" />
                 </div>
@@ -48,7 +48,7 @@ export const Home = () => {
                     placeholder="알고 싶은 것을 검색해 보세요."
                 />
             </header>
-            <main className="main-area">
+            <main className="content-area__main">
                 <section>
                     <h2>인기 있는 게시글</h2>
                     <TrendingList trendingData={exampleTrendingData} />

@@ -101,7 +101,7 @@ export const SearchInfo = () => {
     };
 
     return (
-        <main className="main-area">
+        <main className="content-area__main">
             <h1>Search</h1>
             <div>
                 <input
