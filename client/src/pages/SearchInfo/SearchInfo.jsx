@@ -60,7 +60,7 @@ export const SearchInfo = () => {
                 setFilteredPosts([...testDataFromServer.list]);
                 setPosts([...testDataFromServer.list]);
             } catch (error) {
-                console.error("Error : ", error);
+                console.error("Error 발생 (게시글 목록 불러오기) : ", error);
             } finally {
                 setLoading(false);
             }
