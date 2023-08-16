@@ -45,7 +45,7 @@ export const EditDetail = () => {
         )
         .then(res => {
             console.log(res);
-            navigator.history.back();
+            window.location.href = "/admin/service/edit"
         })
         .catch(err => {
             console.error(err);
