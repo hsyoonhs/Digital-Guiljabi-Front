@@ -42,7 +42,7 @@ export const Home = () => {
         console.log("code: ", code);
         if (code) {
             const api_url = process.env.REACT_APP_API_URL;
-            axios.get(`${api_url}/api/login/kakao?code=${code}`)
+            axios.get(`${api_url}/api/login/kakao?code=${code}&redirectUrl=${process.env.REACT_APP_REDIRECT_URL}`)
                 .then((response) => {
                     console.log("response: ", response);
                 })
