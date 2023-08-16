@@ -15,7 +15,7 @@ function App() {
         const api = process.env.REACT_APP_API_URL;
         axios
             .post(`${api}/api/login`, {
-                uid: "commeci",
+                uid: "admin",
             })
             .then((res) => {
                 if (res.data.token)

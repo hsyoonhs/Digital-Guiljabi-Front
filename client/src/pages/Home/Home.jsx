@@ -1,5 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import TrendingList from "./components/TrendingList";
+import { useEffect } from "react";
+import axios from "axios";
 
 export const Home = () => {
     const navigate = useNavigate();
@@ -33,6 +35,22 @@ export const Home = () => {
             category: "복지"
         }
     ];
+
+
+    useEffect(() => {
+        const code = new URLSearchParams(window.location.search).get("code");
+        console.log("code: ", code);
+        if (code) {
+            const api_url = process.env.REACT_APP_API_URL;
+            axios.get(`${api_url}/api/login/kakao?code=${code}`)
+                .then((response) => {
+                    console.log("response: ", response);
+                })
+                .catch((error) => {
+                    console.error("Error 발생 (카카오 로그인): ", error);
+                });
+        }
+    })
 
     return (
         <>
