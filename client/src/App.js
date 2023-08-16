@@ -9,8 +9,6 @@ import { UserLayout } from "./components/Layout/UserLayout";
 import { AdminLayout } from "./components/Layout/AdminLayout";
 import axios from "axios";
 
-import "./Firebase"
-
 function App() {
     useEffect(() => {
         const api = process.env.REACT_APP_API_URL;
@@ -32,7 +30,7 @@ function App() {
                     <Route index element={<Home />} />
                     <Route path="request/:id" element={<Request />} />
                     <Route path="detailInfo/:id" element={<Detail />} />
-                    <Route path="request" element={<Request />} />
+                    <Route path="request/:id" element={<Request />} />
                     <Route path="detailInfo" element={<Detail />} />
                     <Route path="my" element={<My />} />
                     <Route path="search" element={<SearchInfo />} />
