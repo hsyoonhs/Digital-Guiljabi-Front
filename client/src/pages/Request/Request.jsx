@@ -125,6 +125,7 @@ export const Request = () => {
             )}
             <br></br>
             <textarea
+                className="textarea"
                 value={reason}
                 onChange={reasonChange}
                 placeholder="해당 요청 사유를 입력하세요"
@@ -132,7 +133,9 @@ export const Request = () => {
                 cols={50}
             />
             <br></br>
-            <button onClick={submitReason}>제출</button>
+            <button className="button primary" onClick={submitReason}>
+                제출
+            </button>
         </main>
     );
 };

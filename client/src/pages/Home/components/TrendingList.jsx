@@ -4,7 +4,7 @@ export default function TrendingList({ trendingData }) {
     return (
         <div>
             {trendingData.map((item, index) => (
-                <div key={index}>
+                <div className="card" key={index}>
                     <span>Category: {item.category}</span>
                     <h3>
                         <Link to={`/detailinfo?id=${item.id}`}>
