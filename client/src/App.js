@@ -29,8 +29,8 @@ function App() {
             <Routes>
                 <Route path="/" element={<UserLayout />}>
                     <Route index element={<Home />} />
-                    <Route path="request" element={<Request />} />
-                    <Route path="detailInfo" element={<Detail />} />
+                    <Route path="request/:id" element={<Request />} />
+                    <Route path="detailInfo/:id" element={<Detail />} />
                     <Route path="my" element={<My />} />
                     <Route path="search" element={<SearchInfo />} />
                     <Route path="posting" element={<Posting />} />
