@@ -9,11 +9,11 @@ export const Action = ({
     return (
         <div>
             <button onClick={toggleLike}>
-                {contents.liked ? "좋아요 취소" : "좋아요"}
+                {contents.isLiked ? "좋아요 취소" : "좋아요"}
             </button>
             <label>{contents.likeCnt}</label>
             <button onClick={toggleBookmark}>
-                {contents.bookmarked ? "북마크 취소" : "북마크"}
+                {contents.isBookmarked ? "북마크 취소" : "북마크"}
             </button>
             <label>{contents.bookmarkCnt}</label>
             <button onClick={handleRequest}>요청</button>

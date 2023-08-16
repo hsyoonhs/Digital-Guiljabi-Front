@@ -17,8 +17,6 @@ export const Detail = () => {
     const [size, setSize] = useState(10);
     const params = useParams();
     const navigate = useNavigate();
-    console.log("게시판", params);
-    console.log("게시판", params.id);
 
     const fetchPostData = async () => {
         try {
@@ -94,36 +92,23 @@ export const Detail = () => {
         }
     };
 
-    const handleLike = () => {
-        setPost((prevPost) => ({
-            ...prevPost,
-            liked: !prevPost.liked,
-        }));
-    };
-
-    const handleBookmark = () => {
-        setPost((prevPost) => ({
-            ...prevPost,
-            bookmarked: !prevPost.bookmarked,
-        }));
-    };
-
     const handleDeleteComment = async (commentPk) => {
         try {
-            await axios.delete(`${api_url}/api/v1/comments/${commentPk}`, {
-                headers: {
-                    Authorization: `Bearers ${localStorage.getItem("token")}`,
-                },
-            });
-            setComments((prevComments) =>
-                prevComments.filter(
-                    (comment) => comment.commentPk !== commentPk
-                )
-            );
+            if (window.confirm("해당 댓글을 정말 삭제하시겠습니까?")) {
+                await axios.delete(`${api_url}/api/v1/comments/${commentPk}`, {
+                    headers: {
+                        Authorization: `Bearer ${localStorage.getItem(
+                            "token"
+                        )}`,
+                    },
+                });
+                alert("삭제되었습니다.");
+            } else {
+                alert("삭제를 취소합니다.");
+            }
         } catch (error) {
-            console.log(commentPk);
             console.error("Error 발생 (댓글 삭제): ", error);
-            alert("작성자가 아니면 삭제할 수 없습니다!");
+            alert("작성자가 아니면 댓글을 삭제할 수 없습니다!");
         }
     };
 
@@ -145,7 +130,7 @@ export const Detail = () => {
                 alert("삭제를 취소합니다.");
             }
         } catch (error) {
-            console.error("Error 발생 : ", error);
+            console.error("Error 발생 (게시글 삭제): ", error);
             alert("작성자가 아니면 게시글을 삭제할 수 없습니다!");
         }
     };
@@ -156,7 +141,7 @@ export const Detail = () => {
 
     const toggleLike = async () => {
         try {
-            if (post.liked) {
+            if (post.isLiked) {
                 await axios.delete(
                     `${api_url}/api/v1/boards/${params.id}/likes`,
                     {
@@ -180,17 +165,15 @@ export const Detail = () => {
                     }
                 );
             }
-
-            handleLike();
             fetchPostData();
         } catch (error) {
-            console.log("Error 발생 (좋아요) : ", error);
+            console.error("Error 발생 (좋아요) : ", error);
         }
     };
 
     const toggleBookmark = async () => {
         try {
-            if (post.bookmarked) {
+            if (post.isBookmarked) {
                 await axios.delete(
                     `${api_url}/api/v1/boards/${params.id}/bookmarks`,
                     {
@@ -214,11 +197,9 @@ export const Detail = () => {
                     }
                 );
             }
-
-            handleBookmark();
             fetchPostData();
         } catch (error) {
-            console.log("Error 발생 (북마크) : ", error);
+            console.error("Error 발생 (북마크) : ", error);
         }
     };
 
@@ -249,8 +230,6 @@ export const Detail = () => {
                     ))}
                     <Action
                         contents={post}
-                        handleLike={handleLike}
-                        handleBookmark={handleBookmark}
                         handleRequest={handleRequest}
                         setPost={setPost}
                         toggleLike={toggleLike}
