@@ -1,6 +1,7 @@
 import "./styles/App.css";
+import "./styles/App-fonts.css";
 
-import { Navbar } from "./components/Navbar"
+import { Navbar } from "./components/Navbar";
 import React, { useEffect } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
@@ -14,7 +15,7 @@ function App() {
         const api = process.env.REACT_APP_API_URL;
         axios
             .post(`${api}/api/login`, {
-                uid: "admin",
+                uid: "admin"
             })
             .then((res) => {
                 if (res.data.token)

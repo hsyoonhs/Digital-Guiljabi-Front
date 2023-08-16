@@ -6,7 +6,7 @@ export const Navbar = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="navbar">
+        <nav className="navbar">
             <div className="navbar__logo">
                 <h1>Logo</h1>
             </div>
@@ -22,6 +22,6 @@ export const Navbar = () => {
                 <button onClick={() => navigate("/posting")}>Posting</button>
                 <button onClick={() => navigate("/login")}>Login</button>
             </div>
-        </div>
+        </nav>
     );
 };
