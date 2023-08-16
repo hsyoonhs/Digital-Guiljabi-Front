@@ -36,11 +36,11 @@ export const Request = () => {
             if (selectedOption === "reports") {
                 requestData = {
                     type: reportType,
-                    content: reason,
+                    content: reason
                 };
             } else if (selectedOption === "edit-requests") {
                 requestData = {
-                    content: reason,
+                    content: reason
                 };
             }
             const response = await axios.post(
@@ -48,10 +48,8 @@ export const Request = () => {
                 requestData,
                 {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "token"
-                        )}`,
-                    },
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
                 }
             );
             console.log(response);
@@ -62,7 +60,7 @@ export const Request = () => {
     };
 
     return (
-        <div>
+        <main className="main-area">
             <h1>Request</h1>
             <label>
                 <input
@@ -135,6 +133,6 @@ export const Request = () => {
             />
             <br></br>
             <button onClick={submitReason}>제출</button>
-        </div>
+        </main>
     );
 };

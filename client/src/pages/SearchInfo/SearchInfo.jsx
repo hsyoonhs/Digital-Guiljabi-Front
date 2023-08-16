@@ -51,10 +51,8 @@ export const SearchInfo = () => {
 
                 const response = await axios.get(apiUrl, {
                     headers: {
-                        Authorization: `Bearer ${localStorage.getItem(
-                            "token"
-                        )}`,
-                    },
+                        Authorization: `Bearer ${localStorage.getItem("token")}`
+                    }
                 });
                 const testDataFromServer = response.data;
                 setFilteredPosts([...testDataFromServer.list]);
@@ -103,7 +101,7 @@ export const SearchInfo = () => {
     };
 
     return (
-        <div>
+        <main className="main-area">
             <h1>Search</h1>
             <div>
                 <input
@@ -132,6 +130,6 @@ export const SearchInfo = () => {
             )}
             <SeeMore handleMore={handleMore} />
             <button onClick={handleWritePost}>글 작성</button>
-        </div>
+        </main>
     );
 };

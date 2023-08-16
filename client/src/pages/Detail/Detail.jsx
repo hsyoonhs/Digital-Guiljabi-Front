@@ -212,7 +212,7 @@ export const Detail = () => {
             {post === null ? (
                 <p>로딩중</p>
             ) : (
-                <>
+                <main className="main-area">
                     <TopBar
                         contents={post}
                         modifyPost={handleModifyPost}
@@ -245,7 +245,7 @@ export const Detail = () => {
                         />
                     ))}
                     <CommentMore handleMoreClick={handleMoreClick} />
-                </>
+                </main>
             )}
         </div>
     );

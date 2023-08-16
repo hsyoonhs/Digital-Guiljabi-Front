@@ -41,16 +41,13 @@ export const Home = () => {
                     <img src="" alt="디지털 길잡이 로고" />
                 </div>
                 <h1>디지털 길잡이</h1>
-                <p>
-                    모두가 기술의 수평선상에 설 날을 만들어 가는 온라인 도움말
-                    공동 집필 프로젝트
-                </p>
+                <p>모두가 기술의 수평선상에 서는 온라인 도움말 프로젝트</p>
                 <input
                     type="search"
                     placeholder="알고 싶은 것을 검색해 보세요."
                 />
             </header>
-            <main>
+            <main className="main-area">
                 <section>
                     <h2>인기 있는 게시글</h2>
                     <TrendingList trendingData={exampleTrendingData} />

@@ -1,38 +1,62 @@
-.App {
-  text-align: center;
+/*----- 전역 -----*/
+:root {
+    --content-max-width: 768px;
+
+    --primary-color: 137, 127, 252;
+    --white-color: 255, 255, 255;
+
+    --app-background-color: var(--white-color);
+    --app-text-color: 50, 50, 50;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+html {
+    background-color: rgb(var(--white-color));
+    font-size: 18px;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body {
+    margin: 0;
+    color: rgb(var(--app-text-color));
+    font-family: -apple-system, BlinkMacSystemFont, "Apple SD Gothic Neo",
+        "Pretendard Variable", Pretendard, Roboto, "Noto Sans KR", "Segoe UI",
+        "Malgun Gothic", "Apple Color Emoji", "Segoe UI Emoji",
+        "Segoe UI Symbol", sans-serif;
+    font-size: 1em;
+    line-height: 1.5;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+        monospace;
 }
 
-.App-link {
-  color: #61dafb;
+/*----- 레이아웃 -----*/
+
+#root {
+    max-width: var(--content-max-width);
+    margin: 0 auto;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.main-area {
+    display: flex;
+    flex-direction: column;
+    gap: 5vh;
+    padding: 5vh 6%;
+}
+
+/*----- 요소 -----*/
+
+a {
+    color: rgb(var(--primary-color));
+    text-underline-offset: 0.2em;
+    text-decoration-color: rgba(var(--primary-color), 0.4);
+    text-decoration-thickness: 0.2em;
+}
+
+input,
+select,
+button {
+    padding: 0.5em 1em;
 }
