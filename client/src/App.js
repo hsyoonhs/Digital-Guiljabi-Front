@@ -1,7 +1,6 @@
 import "./styles/App.css";
 
 import React, { useEffect } from "react";
-import axios from "axios";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 
 import { Detail, Home, My, SearchInfo, Admin, Posting } from "./pages";
@@ -11,16 +10,17 @@ import { AdminLayout } from "./components/Layout/AdminLayout";
 import axios from "axios";
 
 function App() {
-
     useEffect(() => {
         const api = process.env.REACT_APP_API_URL;
-        axios.post(`${api}/api/login`, {
-            "uid": "admin"
-        })
-            .then(res => {
-                if (res.data.token) localStorage.setItem("token", res.data.token);
+        axios
+            .post(`${api}/api/login`, {
+                uid: "admin",
             })
-            .catch(err => console.log(err));
+            .then((res) => {
+                if (res.data.token)
+                    localStorage.setItem("token", res.data.token);
+            })
+            .catch((err) => console.log(err));
     }, []);
 
     return (
@@ -33,7 +33,7 @@ function App() {
                     <Route path="search" element={<SearchInfo />} />
                     <Route path="posting" element={<Posting />} />
                 </Route>
-                <Route path="/admin" element={<AdminLayout />} >
+                <Route path="/admin" element={<AdminLayout />}>
                     <Route index element={<Admin />} />
                     <Route path="*" element={<Admin />} />
                 </Route>
