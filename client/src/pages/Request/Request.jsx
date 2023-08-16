@@ -55,9 +55,9 @@ export const Request = () => {
                 }
             );
             console.log(response);
-            alert("요청 제출 성공");
+            alert("요청이 성공적으로 제출되었습니다.");
         } catch (error) {
-            console.error("Error : ", error);
+            console.error("Error 발생 (요청 제출) : ", error);
         }
     };
 
